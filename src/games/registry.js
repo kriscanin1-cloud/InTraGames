@@ -30,15 +30,16 @@ export const games = [
     duration: '10–20 min',
     difficulty: 1,
     description: {
-      en: 'Ancient Turkish strategy game. Sow stones and capture by creating groups of 2 or 4.',
-      ru: 'Древняя турецкая стратегическая игра. Раскладывай камешки и захватывай группами по 2 или 4.',
-      de: 'Altes türkisches Strategiespiel. Steine säen und durch Gruppen von 2 oder 4 erbeuten.',
+      en: 'Ancient strategy game of the Middle East. Sow stones and capture by creating groups of 2 or 4.',
+      ru: 'Древняя стратегическая игра Ближнего Востока. Раскладывай камешки и захватывай группами по 2 или 4.',
+      de: 'Altes Strategiespiel des Nahen Ostens. Steine säen und durch Gruppen von 2 oder 4 erbeuten.',
     },
     tags: ['strategy', 'mancala', 'middle-east'],
     available: true,
   },
   {
     slug: 'hnefatafl',
+    component: null,
     title: 'Hnefatafl',
     titleRu: 'Хнефатафль',
     titleDe: 'Hnefatafl',
@@ -58,6 +59,7 @@ export const games = [
   },
   {
     slug: 'surakarta',
+    component: null,
     title: 'Surakarta',
     titleRu: 'Суракарта',
     titleDe: 'Surakarta',
