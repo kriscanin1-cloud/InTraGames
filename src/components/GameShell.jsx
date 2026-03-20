@@ -5,7 +5,7 @@ import History from './History';
 import NameModal from './NameModal';
 import OnlineModal from './OnlineModal';
 import RulesModal from './RulesModal';
-import { soundEngine } from '../games/toguz-korgool/sound';
+import { soundEngine } from '../audio/sound';
 import '../styles/game.css';
 
 export default function GameShell({
