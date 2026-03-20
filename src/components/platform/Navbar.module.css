@@ -1,0 +1,71 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(196,133,90,0.2);
+  background: var(--bg, #faf4eb);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2a1f12;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.logoIn {
+  color: #c4855a;
+}
+.logoGames {
+  font-weight: 400;
+  opacity: 0.6;
+  font-size: 1.2rem;
+  margin-left: 1px;
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+}
+
+.link {
+  font-family: 'Geologica', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5a4535;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s, color 0.2s;
+}
+.link:hover { opacity: 1; color: #c4855a; }
+.active { opacity: 1; color: #c4855a; }
+
+.langBar {
+  display: flex;
+  gap: 2px;
+  border: 1px solid rgba(196,133,90,0.35);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.langBtn {
+  font-family: 'Geologica', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #c4855a;
+  transition: all 0.15s;
+}
+.langBtn:hover { background: rgba(196,133,90,0.08); }
+.activeLang { background: #c4855a; color: white; font-weight: 500; }

@@ -1,0 +1,98 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 31, 18, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background: var(--bg, #faf4eb);
+  border: 1px solid rgba(196,133,90,0.35);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.ornament {
+  color: #c8963c;
+  font-size: 1rem;
+  letter-spacing: 0.5rem;
+  opacity: 0.5;
+}
+
+.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2a1f12;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  font-family: 'Geologica', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  padding: 0.55rem 0.85rem;
+  border-radius: 3px;
+  border: 1px solid rgba(196,133,90,0.35);
+  background: #f2e8d9;
+  color: #2a1f12;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.input:focus {
+  border-color: #c4855a;
+}
+.input::placeholder {
+  color: rgba(196,133,90,0.5);
+}
+
+.btn {
+  font-family: 'Geologica', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.6rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  background: #c4855a;
+  color: white;
+  transition: background 0.2s;
+  width: 100%;
+}
+.btn:hover {
+  background: #a06040;
+}
