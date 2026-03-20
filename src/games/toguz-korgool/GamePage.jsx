@@ -1,14 +1,14 @@
-import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
-import { initialState, applyMove, aiChooseMove, pitOwner, TOTAL_STONES } from './game/logic';
-import { soundEngine } from './game/sound';
-import { translations } from './i18n';
-import { useOnlineGame } from './useOnlineGame';
-import Pit from './components/Pit';
-import History from './components/History';
-import NameModal from './components/NameModal';
-import RulesModal from './components/RulesModal';
-import OnlineModal from './components/OnlineModal';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { initialState, applyMove, aiChooseMove, pitOwner, TOTAL_STONES } from './logic';
+import { soundEngine } from './sound';
+import { translations } from '../../i18n';
+import { toguzTranslations } from './i18n';
+import { useOnlineGame } from '../../useOnlineGame';
+import Pit from '../../components/Pit';
+import History from '../../components/History';
+import NameModal from '../../components/NameModal';
+import RulesModal from '../../components/RulesModal';
+import OnlineModal from '../../components/OnlineModal';
 import './App.css';
 
 export default function App({ lang = 'en' }) {
@@ -25,7 +25,8 @@ export default function App({ lang = 'en' }) {
   const [showOnline, setShowOnline] = useState(false);
 
   const t = translations[lang];
-  const online = useOnlineGame();
+  const tt = toguzTranslations[lang];
+  const online = useOnlineGame(initialState, applyMove, 'toguz');
 
   const activeState = mode === 'online' && online.gameState ? online.gameState : state;
 
@@ -239,8 +240,8 @@ export default function App({ lang = 'en' }) {
       <div className="app">
         <header className="header">
           <div className="ornament">— ✦ —</div>
-          <h1>{t.title}</h1>
-          <p className="subtitle">{t.subtitle}</p>
+          <h1>{tt.title}</h1>
+        <p className="subtitle">{tt.subtitle}</p>
         </header>
 
         <div className="modeBar">
@@ -352,8 +353,7 @@ export default function App({ lang = 'en' }) {
       </div>
 
       {showModal && <NameModal t={t} onStart={handleModalStart} />}
-      {showRules && <RulesModal t={t} onClose={() => setShowRules(false)} />}
-      {showOnline && (
+      {showRules && <RulesModal t={{...t, ...tt}} game="toguz" onClose={() => setShowRules(false)} />}      {showOnline && (
         <OnlineModal
           t={t}
           onClose={() => { setShowOnline(false); }}

@@ -280,3 +280,12 @@
 .hidden {
   visibility: hidden;
 }
+
+.landed {
+  border-color: #c4855a;
+  background: #f5e6d0;
+  box-shadow: 0 0 0 2px rgba(196,133,90,0.3);
+}
+.landed span {
+  color: #a06040;
+}

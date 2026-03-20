@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './RulesModal.module.css';
 
-function StepBoard({ step, t }) {
+function ToguzBoard({ step, t }) {
   if (step === 0) return (
     <div className={styles.visual}>
       <div className={styles.visualBoard}>
@@ -32,7 +32,7 @@ function StepBoard({ step, t }) {
         <div className={styles.visualDivider} />
         <div className={styles.visualRow}>
           {[9,9,9,9,9,9,10,10,0].map((n, i) => (
-            <div key={i} className={`${styles.visualPit} ${i === 8 ? styles.source : ''} ${i >= 6 && i <= 7 ? styles.highlight : ''}`}>
+            <div key={i} className={`${styles.visualPit} ${i === 8 ? styles.source : ''} ${i >= 6 && i <= 7 ? styles.landed : ''}`}>
               <span>{n}</span>
             </div>
           ))}
@@ -106,7 +106,113 @@ function StepBoard({ step, t }) {
   return null;
 }
 
-export default function RulesModal({ t, onClose }) {
+function MangalaBoard({ step, t }) {
+  if (step === 0) return (
+    <div className={styles.visual}>
+      <div className={styles.visualBoard}>
+        <div className={styles.visualRow}>
+          {Array(6).fill(4).map((n, i) => (
+            <div key={i} className={styles.visualPit}><span>{n}</span></div>
+          ))}
+        </div>
+        <div className={styles.visualDivider} />
+        <div className={styles.visualRow}>
+          {Array(6).fill(4).map((n, i) => (
+            <div key={i} className={styles.visualPit}><span>{n}</span></div>
+          ))}
+        </div>
+      </div>
+      <div className={styles.visualCaption}>{t.captions[0]}</div>
+    </div>
+  );
+
+  if (step === 1) return (
+    <div className={styles.visual}>
+      <div className={styles.visualBoard}>
+        <div className={styles.visualRow}>
+          {[4,4,4,4,4,4].map((n, i) => (
+            <div key={i} className={styles.visualPit}><span>{n}</span></div>
+          ))}
+        </div>
+        <div className={styles.visualDivider} />
+        <div className={styles.visualRow}>
+          {[1,5,5,5,4,4].map((n, i) => (
+            <div key={i} className={`${styles.visualPit} ${i === 0 ? styles.source : ''} ${i >= 1 && i <= 3 ? styles.landed : ''}`}>
+              <span>{n}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className={styles.visualCaption}>{t.captions[1]}</div>
+    </div>
+  );
+
+  if (step === 2) return (
+    <div className={styles.visual}>
+      <div className={styles.visualBoard}>
+        <div className={styles.visualRow}>
+          {[4,4,4,2,4,4].map((n, i) => (
+            <div key={i} className={`${styles.visualPit} ${i === 3 ? styles.capture : ''}`}>
+              <span>{n}</span>
+              {i === 3 && <div className={styles.pitNote}>{t.captionCapture}</div>}
+            </div>
+          ))}
+        </div>
+        <div className={styles.visualDivider} />
+        <div className={styles.visualRow}>
+          {[4,4,4,4,4,4].map((n, i) => (
+            <div key={i} className={styles.visualPit}><span>{n}</span></div>
+          ))}
+        </div>
+      </div>
+      <div className={styles.visualCaption}>{t.captions[2]}</div>
+    </div>
+  );
+
+  if (step === 3) return (
+    <div className={styles.visual}>
+      <div className={styles.visualBoard}>
+        <div className={styles.visualRow}>
+          {[4,4,2,2,4,4].map((n, i) => (
+            <div key={i} className={`${styles.visualPit} ${i === 2 || i === 3 ? styles.capture : ''}`}>
+              <span>{n}</span>
+              {i === 3 && <div className={styles.pitNote}>{t.captionCapture}</div>}
+              {i === 2 && <div className={styles.pitNote}>{t.captionCapture}</div>}
+            </div>
+          ))}
+        </div>
+        <div className={styles.visualDivider} />
+        <div className={styles.visualRow}>
+          {[4,4,4,4,4,4].map((n, i) => (
+            <div key={i} className={styles.visualPit}><span>{n}</span></div>
+          ))}
+        </div>
+      </div>
+      <div className={styles.visualCaption}>{t.captions[3]}</div>
+    </div>
+  );
+
+  if (step === 4) return (
+    <div className={styles.visual}>
+      <div className={styles.scoreVisual}>
+        <div className={styles.scoreBox} style={{borderColor:'#c8963c'}}>
+          <div className={styles.scoreNum} style={{color:'#c8963c'}}>28</div>
+          <div className={styles.scoreLabel}>Player 1 🏆</div>
+        </div>
+        <div className={styles.scoreSep}>vs</div>
+        <div className={styles.scoreBox}>
+          <div className={styles.scoreNum}>20</div>
+          <div className={styles.scoreLabel}>Player 2</div>
+        </div>
+      </div>
+      <div className={styles.visualCaption}>{t.captions[4]}</div>
+    </div>
+  );
+
+  return null;
+}
+
+export default function RulesModal({ t, game, onClose }) {
   const [step, setStep] = useState(0);
   const total = t.rulesSteps.length;
   const current = t.rulesSteps[step];
@@ -128,7 +234,10 @@ export default function RulesModal({ t, onClose }) {
           ))}
         </div>
 
-        <StepBoard step={step} t={t} />
+        {game === 'mangala'
+          ? <MangalaBoard step={step} t={t} />
+          : <ToguzBoard step={step} t={t} />
+        }
 
         <div className={styles.stepContent}>
           <div className={styles.stepCounter}>{t.stepOf(step + 1, total)}</div>

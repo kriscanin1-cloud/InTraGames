@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { ref, set, onValue, off } from 'firebase/database';
 import { db } from './firebase';
-import { initialState, applyMove } from './game/logic';
 
 export function generateRoomCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-export function useOnlineGame() {
+export function useOnlineGame(initialStateFn, applyMoveFn, gamePrefix = 'toguz') {
   const [roomCode, setRoomCode] = useState('');
   const [playerSeat, setPlayerSeat] = useState(null);
   const [gameState, setGameState] = useState(null);
@@ -22,16 +21,16 @@ export function useOnlineGame() {
     setRoomCode(code);
     setPlayerSeat(0);
     setOnlineStatus('waiting');
-    setGameState(initialState());
+    setGameState(initialStateFn());
 
-    await set(ref(db, `rooms/${code}`), {
-      state: initialState(),
+    await set(ref(db, `${gamePrefix}-rooms/${code}`), {
+      state: initialStateFn(),
       player0: { name, ready: true },
       player1: null,
       createdAt: Date.now(),
     });
 
-    onValue(ref(db, `rooms/${code}`), (snap) => {
+    onValue(ref(db, `${gamePrefix}-rooms/${code}`), (snap) => {
       const data = snap.val();
       if (!data) return;
       if (data.player1 && data.player1.name) {
@@ -42,26 +41,19 @@ export function useOnlineGame() {
     });
 
     return code;
-  }, []);
+  }, [initialStateFn, gamePrefix]);
 
-const joinRoom = useCallback(async (code, name) => {
+  const joinRoom = useCallback(async (code, name) => {
     const upper = code.toUpperCase();
-    console.log('Joining room:', upper);
+    const prefix = gamePrefix;
 
     return new Promise((resolve, reject) => {
-      onValue(ref(db, `rooms/${upper}`), async (snap) => {
-        console.log('Room data:', snap.val());
+      onValue(ref(db, `${prefix}-rooms/${upper}`), async (snap) => {
         const data = snap.val();
+        console.log('joinRoom prefix:', prefix, 'upper:', upper, 'data:', data);
 
-        if (!data) {
-          reject(new Error('Room not found'));
-          return;
-        }
-
-        if (data.player1 && data.player1.name) {
-          reject(new Error('Room is full'));
-          return;
-        }
+        if (!data) { reject(new Error('Room not found')); return; }
+        if (data.player1 && data.player1.name) { reject(new Error('Room is full')); return; }
 
         setMyName(name);
         setRoomCode(upper);
@@ -70,28 +62,29 @@ const joinRoom = useCallback(async (code, name) => {
         setOnlineStatus('playing');
         if (data.state) setGameState(data.state);
 
-        await set(ref(db, `rooms/${upper}/player1`), { name, ready: true });
+        await set(ref(db, `${prefix}-rooms/${upper}/player1`), { name, ready: true });
 
-        onValue(ref(db, `rooms/${upper}/state`), (stateSnap) => {
+        onValue(ref(db, `${prefix}-rooms/${upper}/state`), (stateSnap) => {
           const s = stateSnap.val();
           if (s) setGameState(s);
         });
-
+        
+        console.log('joinRoom resolved, status: playing, seat: 1');
         resolve();
       }, { onlyOnce: true });
     });
-  }, []);
+  }, [gamePrefix]);
 
   const makeOnlineMove = useCallback(async (pitIdx) => {
     if (!gameState || !roomCode) return;
     if (gameState.currentPlayer !== playerSeat) return;
 
-    const { newState } = applyMove(gameState, pitIdx);
-    await set(ref(db, `rooms/${roomCode}/state`), newState);
-  }, [gameState, roomCode, playerSeat]);
+    const { newState } = applyMoveFn(gameState, pitIdx);
+    await set(ref(db, `${gamePrefix}-rooms/${roomCode}/state`), newState);
+  }, [gameState, roomCode, playerSeat, applyMoveFn, gamePrefix]);
 
   const leaveRoom = useCallback(() => {
-    if (roomCode) off(ref(db, `rooms/${roomCode}`));
+    if (roomCode) off(ref(db, `${gamePrefix}-rooms/${roomCode}`));
     setRoomCode('');
     setPlayerSeat(null);
     setGameState(null);
@@ -99,19 +92,11 @@ const joinRoom = useCallback(async (code, name) => {
     setOpponentName('');
     setMyName('');
     setError('');
-  }, [roomCode]);
+  }, [roomCode, gamePrefix]);
 
   return {
-    roomCode,
-    playerSeat,
-    gameState,
-    onlineStatus,
-    opponentName,
-    myName,
-    error,
-    createRoom,
-    joinRoom,
-    makeOnlineMove,
-    leaveRoom,
+    roomCode, playerSeat, gameState, onlineStatus,
+    opponentName, myName, error,
+    createRoom, joinRoom, makeOnlineMove, leaveRoom,
   };
 }
