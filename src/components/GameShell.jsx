@@ -22,8 +22,7 @@ export default function GameShell({
   totalStones,
 
   // Game config
-  hasKazans = true,
-  winScore,
+  minStonesForMove = 1,
 
   // Render props — игра рисует свою доску
   renderBoard,       // ({ state, onPitClick, isClickable, animatingPits, landedPits }) => JSX
@@ -228,7 +227,8 @@ export default function GameShell({
     return !activeState.gameOver &&
       !aiThinking &&
       activeState.currentPlayer === pitOwner(idx) &&
-      (mode === 'pvp' || pitOwner(idx) === 0);
+      (mode === 'pvp' || pitOwner(idx) === 0) &&
+      activeState.pits[idx] >= minStonesForMove;
   };
 
   return (

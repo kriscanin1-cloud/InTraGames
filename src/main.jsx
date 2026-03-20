@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Catalog from './pages/Catalog';
 import ToguzGame from './games/toguz-korgool/GamePage';
 import MangalaGame from './games/mangala/GamePage';
+import OwareGame from './games/oware/GamePage';
 
 function Platform() {
   const [lang, setLang] = useState('en');
@@ -18,6 +19,7 @@ function Platform() {
         <Route path="/games" element={<Catalog lang={lang} />} />
         <Route path="/games/toguz-korgool" element={<ToguzGame lang={lang} />} />
         <Route path="/games/mangala" element={<MangalaGame lang={lang} />} />
+        <Route path="/games/oware" element={<OwareGame lang={lang} />} />
       </Routes>
     </BrowserRouter>
   );

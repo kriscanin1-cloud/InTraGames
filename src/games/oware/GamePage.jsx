@@ -1,10 +1,10 @@
 import React from 'react';
 import GameShell from '../../components/GameShell';
 import { initialState, applyMove, aiChooseMove, pitOwner, TOTAL_STONES } from './logic';
-import { toguzTranslations } from './i18n';
+import { owareTranslations } from './i18n';
 import Pit from '../../components/Pit';
 
-function ToguzBoard({ state, onPitClick, isClickable, animatingPits, landedPits, name1, name2, t }) {
+function OwareBoard({ state, onPitClick, isClickable, animatingPits, landedPits, name1, name2, t }) {
   return (
     <>
       <div className="kazanRow">
@@ -20,12 +20,10 @@ function ToguzBoard({ state, onPitClick, isClickable, animatingPits, landedPits,
       </div>
 
       <div className="pitRow">
-        {Array.from({ length: 9 }, (_, i) => 17 - i).map(idx => (
+        {Array.from({ length: 6 }, (_, i) => 11 - i).map(idx => (
           <Pit key={idx} count={state.pits[idx]} index={idx} playerOwner={1}
             clickable={isClickable(idx)}
-            tuz={state.tuz[0] === idx || state.tuz[1] === idx}
-            tuzOwner={state.tuz[0] === idx ? 0 : 1}
-            tuzLabel={state.tuz[0] === idx ? 'И1' : 'И2'}
+            tuz={false} tuzOwner={0} tuzLabel=""
             animating={animatingPits.includes(idx)}
             landed={landedPits.includes(idx)}
             onClick={() => onPitClick(idx)} />
@@ -35,12 +33,10 @@ function ToguzBoard({ state, onPitClick, isClickable, animatingPits, landedPits,
       <div className="boardDivider" />
 
       <div className="pitRow">
-        {Array.from({ length: 9 }, (_, i) => i).map(idx => (
+        {Array.from({ length: 6 }, (_, i) => i).map(idx => (
           <Pit key={idx} count={state.pits[idx]} index={idx} playerOwner={0}
             clickable={isClickable(idx)}
-            tuz={state.tuz[0] === idx || state.tuz[1] === idx}
-            tuzOwner={state.tuz[0] === idx ? 0 : 1}
-            tuzLabel={state.tuz[0] === idx ? 'И1' : 'И2'}
+            tuz={false} tuzOwner={0} tuzLabel=""
             animating={animatingPits.includes(idx)}
             landed={landedPits.includes(idx)}
             onClick={() => onPitClick(idx)} />
@@ -50,18 +46,18 @@ function ToguzBoard({ state, onPitClick, isClickable, animatingPits, landedPits,
   );
 }
 
-export default function ToguzGame({ lang = 'en' }) {
+export default function OwareGame({ lang = 'en' }) {
   return (
     <GameShell
       lang={lang}
-      gameTranslations={toguzTranslations}
-      gamePrefix="toguz"
+      gameTranslations={owareTranslations}
+      gamePrefix="oware"
       initialState={initialState}
       applyMove={applyMove}
       aiChooseMove={aiChooseMove}
       pitOwner={pitOwner}
       totalStones={TOTAL_STONES}
-      renderBoard={(props) => <ToguzBoard {...props} />}
+      renderBoard={(props) => <OwareBoard {...props} />}
       minStonesForMove={1}
     />
   );

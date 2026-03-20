@@ -58,6 +58,7 @@ export default function MangalaGame({ lang = 'en' }) {
       pitOwner={pitOwner}
       totalStones={TOTAL_STONES}
       renderBoard={(props) => <MangalaBoard {...props} />}
+      minStonesForMove={2}
     />
   );
 }
