@@ -186,5 +186,9 @@
 }
 
 @media (max-width: 600px) {
+  .page { padding: 0 0.75rem 3rem; }
   .grid { grid-template-columns: 1fr; }
+  .tags { display: none; }
+  .featuredCard { grid-template-columns: 1fr; }
+  .featuredRight { display: none; }
 }

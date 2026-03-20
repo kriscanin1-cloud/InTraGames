@@ -108,3 +108,16 @@
 .landed .count {
   color: #a06040;
 }
+
+@media (max-width: 640px) {
+  .pit {
+    width: 36px;
+    height: 36px;
+  }
+  .count {
+    font-size: 0.95rem;
+  }
+  .idx {
+    font-size: 0.45rem;
+  }
+}

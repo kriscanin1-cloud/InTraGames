@@ -69,3 +69,23 @@
 }
 .langBtn:hover { background: rgba(196,133,90,0.08); }
 .activeLang { background: #c4855a; color: white; font-weight: 500; }
+
+@media (max-width: 600px) {
+  .nav {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .logo {
+    font-size: 1.2rem;
+  }
+  .links {
+    gap: 1rem;
+  }
+  .link {
+    font-size: 0.72rem;
+  }
+  .langBar {
+    margin-left: auto;
+  }
+}

@@ -203,6 +203,7 @@
 
 /* Coming soon */
 .comingSoon { }
+
 .comingSoonLabel {
   font-size: 0.65rem;
   letter-spacing: 0.2em;
@@ -244,7 +245,11 @@
 }
 
 @media (max-width: 600px) {
+  .hero { padding: 2rem 0.5rem 1.5rem; }
+  .heroTitle { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .heroSub { font-size: 0.9rem; }
+  .stats { gap: 1.5rem; }
   .featuredCard { grid-template-columns: 1fr; }
   .featuredRight { display: none; }
-  .stats { gap: 1.5rem; }
+  .comingSoonGrid { grid-template-columns: 1fr 1fr; }
 }
